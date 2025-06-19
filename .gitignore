@@ -1,0 +1,41 @@
+# Executable files
+*.exe
+*.out
+socketer
+
+# Log files and directories
+logs/
+logs/*
+*.log
+*.txt
+
+# Go build artifacts
+go.sum
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files and directories
+tmp/
+temp/
+test_output/
+burst_temp_*/
+*.tmp
+*.temp
+
+# Coverage reports
+*.out
+coverage.html
