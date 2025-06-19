@@ -3,6 +3,9 @@
 # Build script for socketer application
 echo "Building socketer application..."
 
+# Change to parent directory where main.go is located
+cd ..
+
 # Build for current platform
 go build -o socketer .
 

@@ -14,12 +14,14 @@ echo
 
 # Build the application
 echo "Building socketer application..."
+cd ..
 go build -o socketer .
 if [ $? -ne 0 ]; then
     echo "Build failed!"
     exit 1
 fi
 echo "Build successful!"
+cd test
 echo
 
 # Create test output directory
@@ -29,7 +31,7 @@ echo
 
 # Start the socketer application in background
 echo "Starting socketer application on port 8080..."
-./socketer --port 8080 --output test_output &
+../socketer -p 8080 -o test_output &
 SOCKETER_PID=$!
 echo "Socketer started with PID: $SOCKETER_PID"
 

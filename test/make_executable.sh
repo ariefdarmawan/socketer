@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Make all scripts executable
-echo "Making all scripts executable..."
+echo "Making all test scripts executable..."
 
 chmod +x test.sh
 chmod +x manual_test.sh
@@ -10,7 +10,7 @@ chmod +x concurrent_test.sh
 chmod +x load_test.sh
 chmod +x build.sh
 
-echo "All scripts are now executable:"
+echo "All test scripts are now executable:"
 ls -la *.sh
 
 echo

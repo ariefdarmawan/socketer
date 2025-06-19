@@ -99,39 +99,50 @@ func (fw *FileWriter) writeToFile(entry LogEntry) error {
 }
 
 func main() {
-	// Parse command line arguments
-	port := flag.String("port", "8080", "Port to listen on")
-	outputDir := flag.String("output", "./logs", "Output directory for log files")
-	queueSize := flag.Int("queue-size", 1000, "Size of the write queue buffer")
+	// Parse command line arguments with aliases
+	var port, outputDir string
+	var queueSize int
+
+	// Port flags with alias
+	flag.StringVar(&port, "port", "8080", "Port to listen on")
+	flag.StringVar(&port, "p", "8080", "Port to listen on (shorthand)")
+
+	// Output directory flags with alias
+	flag.StringVar(&outputDir, "output", "./logs", "Output directory for log files")
+	flag.StringVar(&outputDir, "o", "./logs", "Output directory for log files (shorthand)")
+
+	// Queue size flags with alias
+	flag.IntVar(&queueSize, "queue-size", 1000, "Size of the write queue buffer")
+	flag.IntVar(&queueSize, "q", 1000, "Size of the write queue buffer (shorthand)")
+
 	flag.Parse()
 
 	// Check if output directory exists, create if it doesn't exist
-	if _, err := os.Stat(*outputDir); os.IsNotExist(err) {
-		log.Printf("Output directory '%s' does not exist, creating...", *outputDir)
-		if err := os.MkdirAll(*outputDir, 0755); err != nil {
+	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+		log.Printf("Output directory '%s' does not exist, creating...", outputDir)
+		if err := os.MkdirAll(outputDir, 0755); err != nil {
 			log.Fatalf("Failed to create output directory: %v", err)
 		}
 		log.Printf("Output directory created successfully")
 	} else if err != nil {
 		log.Fatalf("Failed to check output directory: %v", err)
 	} else {
-		log.Printf("Output directory '%s' already exists", *outputDir)
+		log.Printf("Output directory '%s' already exists", outputDir)
 	}
-
 	// Create FileWriter with queue
-	fileWriter := NewFileWriter(*outputDir, *queueSize)
+	fileWriter := NewFileWriter(outputDir, queueSize)
 	defer fileWriter.Close()
 
 	// Start TCP server
-	listener, err := net.Listen("tcp", ":"+*port)
+	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
-		log.Fatalf("Failed to start server on port %s: %v", *port, err)
+		log.Fatalf("Failed to start server on port %s: %v", port, err)
 	}
 	defer listener.Close()
 
-	log.Printf("Server listening on port %s", *port)
-	log.Printf("Output directory: %s", *outputDir)
-	log.Printf("Write queue size: %d", *queueSize)
+	log.Printf("Server listening on port %s", port)
+	log.Printf("Output directory: %s", outputDir)
+	log.Printf("Write queue size: %d", queueSize)
 
 	// Accept connections
 	for {

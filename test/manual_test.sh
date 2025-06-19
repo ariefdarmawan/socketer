@@ -13,12 +13,14 @@ echo
 
 # Build the application
 echo "Building application..."
+cd ..
 go build -o socketer .
 
 if [ $? -ne 0 ]; then
     echo "Build failed!"
     exit 1
 fi
+cd test
 
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
@@ -34,5 +36,5 @@ echo "Or use telnet:"
 echo "  telnet localhost $PORT"
 echo
 
-# Start the application
-./socketer --port $PORT --output "$OUTPUT_DIR"
+# Start the application with aliases
+../socketer -p $PORT -o "$OUTPUT_DIR"
